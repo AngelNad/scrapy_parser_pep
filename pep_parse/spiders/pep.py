@@ -13,7 +13,10 @@ class PepSpider(scrapy.Spider):
             'tbody tr')
         all_link_pep = rows.css('td').css('a::attr(href)').getall()
         for link_pep in all_link_pep:
-            yield response.follow(link_pep, callback=self.parse_pep)
+            yield response.follow(
+                urljoin(link_pep + '/'),
+                callback=self.parse_pep
+            )
 
     def parse_pep(self, response):
         title = response.css('.page-title::text').get()
