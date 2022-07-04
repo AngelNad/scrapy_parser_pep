@@ -1,4 +1,5 @@
 import scrapy
+from urllib.parse import urljoin
 
 from pep_parse.items import PepParseItem
 
@@ -14,7 +15,7 @@ class PepSpider(scrapy.Spider):
         all_link_pep = rows.css('td').css('a::attr(href)').getall()
         for link_pep in all_link_pep:
             yield response.follow(
-                urljoin(link_pep + '/'),
+                urljoin(link_pep, '/'),
                 callback=self.parse_pep
             )
 
